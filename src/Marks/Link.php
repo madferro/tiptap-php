@@ -23,7 +23,6 @@ class Link extends Mark
             'allowedProtocols' => [
                 'http', 'https', 'ftp', 'ftps', 'mailto', 'tel', 'callto', 'sms', 'cid', 'xmpp',
             ],
-            'isAllowedUri' => fn ($uri) => $this->isAllowedUri($uri),
         ];
     }
 
@@ -51,7 +50,7 @@ class Link extends Mark
 
                     if (
                         $href === '' ||
-                        ! $this->options['isAllowedUri']($href)
+                        ! $this->isAllowedUri($href)
                     ) {
                         return false;
                     }
@@ -74,7 +73,7 @@ class Link extends Mark
 
     public function renderHTML($mark, $HTMLAttributes = [])
     {
-        $isAllowed = $this->options['isAllowedUri']($HTMLAttributes['href'] ?? '');
+        $isAllowed = $this->isAllowedUri($HTMLAttributes['href'] ?? '');
 
         if (! $isAllowed) {
             $HTMLAttributes['href'] = '';
